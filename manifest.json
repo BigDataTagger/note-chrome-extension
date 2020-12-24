@@ -5,8 +5,9 @@
   "description": "Bigdata Extension for note",
   "content_scripts": [{
     "matches": ["https://note.com/notes/new"],
-    "js": [
-      "content.js"
-    ]
+      "js": [
+	  "jquery.js",
+	  "content.js"
+      ]
   }]
 }
