@@ -1,27 +1,41 @@
 var group_head; 
 
-function generate_tags(tags){
+function generate_tags(target,tags){
+    const input_body = target.getElementsByClassName('m-tagInput__body')[0]
+    if (input_body == null)
+	return;
     for(var i in tags){
 	const elem = document.createElement('li');
 	elem.setAttribute('data-v-14fc9452', "");
 	elem.classList.add("hashtag-recommend-group__item");
-	elem.innerHTML = '<span data-v-536dcd77="" data-v-14fc9452="" class="hashtag"><div data-v-536dcd77="" class="a-tag a-tag__size_small"><div data-v-536dcd77="" class="a-tag__label">#' + tags[i] + '</div></div></span>';
+	//elem.innerHTML = '<span data-v-536dcd77="" data-v-14fc9452="" class="hashtag"><div data-v-536dcd77="" class="a-tag a-tag__size_small"><div data-v-536dcd77="" class="a-tag__label">' + tags[i] + '</div></div></span>';
+	elem.innerHTML = '<button data-v-25fb2d84="" data-v-14fc9452="" class="hashtag"><div data-v-25fb2d84="" class="a-tag a-tag__size_small"><!----> <div data-v-25fb2d84="" class="a-tag__label">' + tags[i] + '</div> <!----></div></button>'
+	const label_osusume = '<button data-v-25fb2d84="" data-v-4dd652fa="" class="m-tagInput__item"><div data-v-25fb2d84="" class="a-tag a-tag__size_medium"><!----> <div data-v-25fb2d84="" class="a-tag__label">' + tags[i] +'</div> <i data-v-25fb2d84="" aria-label="close" class="a-tag__close a-icon a-icon--close a-icon--size_small"></i></div></button>';
 	elem.onclick = function () {
-	    const input_body = target.getElementsByClassName('m-tagInput__body')[0]
-	    if (input_body == null)
-		return;
+	    /*
 	    input_body.insertAdjacentHTML('afterbegin',
-					  '<span data-v-536dcd77="" data-v-3dcb2f50="" class="m-tagInput__item"><div data-v-536dcd77="" class="a-tag a-tag__size_medium"><div data-v-536dcd77="" class="a-tag__label">#' + tags[i] + '</div> <i data-v-536dcd77="" aria-label="close" class="a-tag__close a-icon a-icon--close a-icon--size_small"></i></div></span>');
+					  '<span data-v-536dcd77="" data-v-3dcb2f50="" class="m-tagInput__item"><div data-v-536dcd77="" class="a-tag a-tag__size_medium"><div data-v-536dcd77="" class="a-tag__label">' + tags[i] + '</div> <i data-v-536dcd77="" aria-label="close" class="a-tag__close a-icon a-icon--close a-icon--size_small"></i></div></span>');
+	    */
+	    input_body.insertAdjacentHTML('afterbegin',label_osusume);
 	};
-	
 	group_head.appendChild(elem);
     }
 }
 
 window.onload = function () {
-    var button = document.getElementsByTagName('button')[2];
+    var buttons = document.getElementsByTagName('button');
+    var button;
+    for(var i in buttons){
+	if(buttons[i].innerText == "公開設定"){
+	    button = buttons[i];
+	    break;
+	}
+    }
     console.log(button);
+    
     var response = [];
+    const target = document.getElementsByClassName('modal-content-wrapper')[0];
+
     button.onclick = function () {
 	var x = document.getElementById('note-body');
 	var y = document.getElementById('note-name');
@@ -29,14 +43,14 @@ window.onload = function () {
 	var title = y.innerHTML;
 	var request = {"content":text,"title":title};
 	console.log(request);
-	var posting = $.post("https://d272a769e176.ngrok.io//process",request);
+	var posting = $.post("https://834d24e247be.ngrok.io/process",request);
 	posting.done((data) => {
 	    response = data["tags"];
-	    console.log(response);
-	    generate_tags(response);
+	    console.log("response",response);
+	    generate_tags(target,response);
 	});
     };
-    const target = document.getElementsByClassName('modal-content-wrapper')[0];
+    
     const observer = new MutationObserver(records => {
 	if (target.getAttribute('aria-hidden') == 'true')
 	    return;
