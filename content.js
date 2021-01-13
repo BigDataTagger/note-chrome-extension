@@ -35,7 +35,7 @@ window.onload = function () {
     
     var response = [];
     const target = document.getElementsByClassName('modal-content-wrapper')[0];
-
+    
     button.onclick = function () {
 	var x = document.getElementById('note-body');
 	var y = document.getElementById('note-name');
@@ -43,12 +43,26 @@ window.onload = function () {
 	var title = y.innerHTML;
 	var request = {"content":text,"title":title};
 	console.log(request);
-	var posting = $.post("https://834d24e247be.ngrok.io/process",request);
-	posting.done((data) => {
-	    response = data["tags"];
-	    console.log("response",response);
-	    generate_tags(target,response);
-	});
+	$.ajax({
+	  url:"https://bigdatatagger.github.io/data/info_url.json",
+	  dataType:"text",
+	    success: (data)=>{
+		var request_url = JSON.parse(data)["url"]+"/process";
+		var posting = $.post(request_url,request);
+		console.log(request_url);
+		posting.done((data) => {
+		    response = data["tags"];
+		    console.log("response",response);
+		    generate_tags(target,response);
+		});
+	    }
+      });
+	// var posting = $.post(request_url,request);
+	// posting.done((data) => {
+	//     response = data["tags"];
+	//     console.log("response",response);
+	//     generate_tags(target,response);
+	// });
     };
     
     const observer = new MutationObserver(records => {
