@@ -1,13 +1,16 @@
 {
-  "name": "Bigdata Extension",
-  "version": "1.0.0",
-  "manifest_version": 2,
-  "description": "Bigdata Extension for note",
-  "content_scripts": [{
-    "matches": ["https://note.com/notes/new"],
-      "js": [
-	  "jquery.js",
-	  "content.js"
-      ]
-  }]
+    "name": "Bigdata Extension",
+    "version": "1.0.0",
+    "manifest_version": 2,
+    "description": "Bigdata Extension for note",
+    "content_scripts": [{
+	"matches": ["https://note.com/","https://note.com/notes/new","https://note.com/*/*"],
+	"js": [
+	    "jquery.js",
+	    "content.js"
+	]}],
+    "background" :{
+	"scripts" : ["kanri.js"]
+    },
+    "permissions":["tabs"]
 }
