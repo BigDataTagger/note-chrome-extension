@@ -30,7 +30,7 @@ function post_settings(event){
       	    }
 	});
 	// setTimeout(()=>{
-	//     insert_tags(target,["Helo","isworkin","nice"])
+	//     insert_tags(["Helo","isworkin","nice"])
 	//     insert_js();
 	// },1000);
     }

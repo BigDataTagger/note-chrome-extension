@@ -1,4 +1,5 @@
 var group_head;
+var tags_dict = {};
 
 function addTags(tag){
     var tag_adder = document.getElementsByClassName("o-hashtagInput")[0];
@@ -31,16 +32,28 @@ function generate_tags(tags){
     const input_body = document.getElementsByClassName('m-tagInput__body')[0];
     if (input_body == null)
 	return;
+    tags_dict = {};
     for(var i in tags){
 	const elem = document.createElement('li');
 	elem.setAttribute('data-v-14fc9452', "");
 	elem.classList.add("hashtag-recommend-group__item");
-	elem.innerHTML = '<button data-v-25fb2d84="" data-v-14fc9452="" class="hashtag"><div data-v-25fb2d84="" class="a-tag a-tag__size_small"><!----> <div data-v-25fb2d84="" class="a-tag__label">' + tags[i] + '</div> <!----></div></button>'
+	elem.innerHTML = '<button data-v-037895b5 data-v-14fc9452 class="hashtag"><div data-v-037895b5 class="a-tag a-tag__size_small"><!----> <div data-v-037895b5 class="a-tag__label">' + tags[i] + '</div> <!----></div></button>'
 	const tag_osusume = tags[i];
 	elem.onclick = function () {
+	    //this.style.display = "none";
 	    addTags(tag_osusume);
 	};
+	tags_dict[tags[i]] = elem;
 	group_head.appendChild(elem);
+    }
+}
+
+function recoverTag(event){
+    console.log(event.target);
+    if(event.target.tagName === "I"){
+	var tmp = event.target.parentElement.children[0].innerHTML+"";
+	var elem = tags_dict[tmp.replace('"',"").replace("#","").replaceAll("\n","").replaceAll("\t","").replaceAll(" ","")];
+	elem.style.display = "block";
     }
 }
 
@@ -52,3 +65,4 @@ for(var i = 0;i<tags_div.length;i++)
 
 generate_header();
 generate_tags(tags);
+//document.addEventListener('click',recoverTag);
