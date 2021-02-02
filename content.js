@@ -3,7 +3,7 @@ document.addEventListener('click',post_settings);
 function get_title_and_content(){
     var x = document.getElementById('note-body');
     var y = document.getElementById('note-name');
-    var text = x.innerHTML.split('>')[1].split('<')[0];
+    var text = x.innerText//x.innerHTML.split('>')[1].split('<')[0];
     var title = y.innerHTML;
     return {"content":text,"title":title};
 }
@@ -12,23 +12,33 @@ function post_settings(event){
     if(event.target.innerText == "公開設定"){
 	var request = get_title_and_content();
 	console.log(request);
-      	$.ajax({
-      	    url:"https://bigdatatagger.github.io/data/info_url.json",
-      	    dataType:"text",
-      	    cache:false,
-      	    success: (data)=>{
-      		var request_url = JSON.parse(data)["url"]+"/process";
-      		var posting = $.post(request_url,request);
-		var response;
-		console.log(request_url);
-      		posting.done((data) => {
-      		    response = data["tags"];
-      		    console.log("response",response);
-      		    insert_tags(response);
-		    insert_js();
-      		});
-      	    }
-	});
+      	// $.ajax({
+      	//     url:"https://bigdatatagger.github.io/data/info_url.json",
+      	//     dataType:"text",
+      	//     cache:false,
+      	//     success: (data)=>{
+      	// 	var request_url = JSON.parse(data)["url"]+"/process";
+      	// 	var posting = $.post(request_url,request);
+	// 	var response;
+	// 	console.log(request_url);
+      	// 	posting.done((data) => {
+      	// 	    response = data["tags"];
+      	// 	    console.log("response",response);
+      	// 	    insert_tags(response);
+	// 	    insert_js();
+      	// 	});
+      	//     }
+	// });
+	var request_url = "https://835f60524c34.ngrok.io/process";
+      	var posting = $.post(request_url,request);
+	var response;
+	console.log(request_url);
+      	posting.done((data) => {
+      	    response = data["tags"];
+      	    console.log("response",response);
+      	    insert_tags(response);
+	    insert_js();
+      	});
 	// setTimeout(()=>{
 	//     insert_tags(["Helo","isworkin","nice"])
 	//     insert_js();
